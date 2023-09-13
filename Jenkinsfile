@@ -10,11 +10,15 @@ pipeline {
         }   
    
 
-    stage('Unit Tests - JUnit and Jacoco') {
+    stage('Unit Tests') {
       steps {
         sh "mvn test"
       }
-      
+    }
+    stage('SonarQube - SAST') {
+      steps {
+        sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://ec2-3-88-190-230.compute-1.amazonaws.com:9000 -Dsonar.login= 9a2bc90eee2e59031bfc242cf08203e04653c5cc"
+      }
     }
     stage('Docker Build and Push') {
       steps {
